@@ -37,14 +37,18 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # ✅ Buat file google-services.json kalau ada secret
+      # ✅ Step ini akan nyoba decode secret kalau ada
       - name: Decode google-services.json
-        if: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > app/google-services.json
+        env:
+          GOOGLE_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        if: ${{ env.GOOGLE_JSON != '' }}
+        run: echo "$GOOGLE_JSON" | base64 -d > app/google-services.json
 
-      # ✅ Kalau secret gak ada → disable plugin Firebase
+      # ✅ Kalau secret kosong → disable plugin Firebase
       - name: Disable Google Services if no secret
-        if: ${{ !secrets.GOOGLE_SERVICES_JSON }}
+        env:
+          GOOGLE_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        if: ${{ env.GOOGLE_JSON == '' }}
         run: |
           echo "⚠️ No google-services.json provided. Disabling Firebase plugin..."
           sed -i '/com.google.gms.google-services/s/^/\/\/ /' app/build.gradle
