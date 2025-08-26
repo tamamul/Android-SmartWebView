@@ -39,14 +39,14 @@ jobs:
 
       # ✅ Decode google-services.json kalau ada secret
       - name: Decode google-services.json
-        if: secrets.GOOGLE_SERVICES_JSON != ''
+        if: ${{ secrets.GOOGLE_SERVICES_JSON != '' }}
         run: echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > app/google-services.json
 
       # ✅ Kalau secret kosong → disable plugin google-services
       - name: Disable Google Services if no secret
-        if: secrets.GOOGLE_SERVICES_JSON == ''
+        if: ${{ secrets.GOOGLE_SERVICES_JSON == '' }}
         run: |
-          echo "No google-services.json provided. Disabling Firebase plugin..."
+          echo "⚠️ No google-services.json provided. Disabling Firebase plugin..."
           sed -i '/com.google.gms.google-services/s/^/\/\/ /' app/build.gradle
 
       - name: Build Debug APK
