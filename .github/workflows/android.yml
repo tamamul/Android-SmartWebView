@@ -11,6 +11,9 @@ jobs:
     name: Build Android APK
     runs-on: ubuntu-latest
 
+    env:
+      HAS_GOOGLE_JSON: ${{ secrets.GOOGLE_SERVICES_JSON != '' }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -39,12 +42,12 @@ jobs:
 
       # ✅ Decode google-services.json kalau ada secret
       - name: Decode google-services.json
-        if: ${{ secrets.GOOGLE_SERVICES_JSON != '' }}
+        if: env.HAS_GOOGLE_JSON == 'true'
         run: echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > app/google-services.json
 
       # ✅ Kalau secret kosong → disable plugin google-services
       - name: Disable Google Services if no secret
-        if: ${{ secrets.GOOGLE_SERVICES_JSON == '' }}
+        if: env.HAS_GOOGLE_JSON != 'true'
         run: |
           echo "⚠️ No google-services.json provided. Disabling Firebase plugin..."
           sed -i '/com.google.gms.google-services/s/^/\/\/ /' app/build.gradle
