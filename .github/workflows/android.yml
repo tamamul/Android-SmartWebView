@@ -57,7 +57,7 @@ jobs:
           name: SmartWebView-Debug
           path: app/build/outputs/apk/debug/*.apk
 
-      # 9. Upload Release APK
+      # 9. Upload Release AP
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
