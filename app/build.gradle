@@ -17,7 +17,7 @@
 
 plugins {
 	id 'com.android.application'
-	//id 'com.google.gms.google-services'
+	id 'com.google.gms.google-services'
 }
 
 def getSwvProperties() {
@@ -76,10 +76,10 @@ dependencies {
 	implementation 'androidx.multidex:multidex:2.0.1'
 
 	// Firebase
-	//implementation 'com.google.firebase:firebase-auth:24.0.1'
-	//implementation 'com.google.firebase:firebase-config:23.0.0'
-	//implementation 'com.google.firebase:firebase-messaging:25.0.0'
-	//implementation 'com.google.firebase:firebase-analytics:23.0.0'
+	implementation 'com.google.firebase:firebase-auth:24.0.1'
+	implementation 'com.google.firebase:firebase-config:23.0.0'
+	implementation 'com.google.firebase:firebase-messaging:25.0.0'
+	implementation 'com.google.firebase:firebase-analytics:23.0.0'
 
 	implementation 'com.google.android.gms:play-services-auth:21.4.0'
 	implementation 'com.google.android.gms:play-services-ads:24.5.0'
